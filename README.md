@@ -1,4 +1,4 @@
-<a id="readme-top"></a>
+﻿<a id="readme-top"></a>
 
 <!-- PROJECT SHIELDS -->
 <div align="center">
@@ -19,8 +19,9 @@
     <img src="public/medtrack-logo.svg" alt="MedTrack Logo" width="340">
   </a>
 
+  <h3 align="center">Risk-Adaptive Zero-Trust Security Architecture</h3>
   <p align="center">
-    <strong>A Full-Stack Medical Equipment Management & Tracking System</strong>
+    <strong>A Security Posture and Clinical-State-Aware Approach to Hospital Equipment Management</strong>
     <br />
     <a href="https://github.com/kRamu81/MedTrack_Application"><strong>Explore the docs »</strong></a>
     <br />
@@ -40,7 +41,7 @@
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
-        <li><a href="#core-features">Core Features</a></li>
+        <li><a href="#what-makes-this-unique">What Makes This Unique? (Explained Simply)</a></li>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
@@ -52,7 +53,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage & Test Accounts</a></li>
-    <li><a href="#ai-assistant-beta">AI Assistant (Beta)</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -62,16 +62,20 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-MedTrack is a **Full-Stack Medical Equipment Management Platform** that helps hospitals manage their equipment inventory, maintenance schedules, and equipment orders efficiently. It now also features an AI-powered assistant for equipment Q&A and document drafting.
+MedTrack is a **Full-Stack Medical Equipment Management Platform** built for hospitals. While standard systems only track when equipment needs repairs, MedTrack is designed from the ground up as an advanced **Zero-Trust Cybersecurity** research project. 
 
-The system is designed with a microservice-oriented backend and a responsive React frontend, created specifically for the **MedTrack Case Study 06** during the Elite Summer of Code (ECSoc).
+The system acts as a shield, ensuring that external equipment suppliers or compromised technician accounts cannot hack into sensitive clinical networks.
 
-### Core Features
-The system supports three major roles:
-* 🏥 **Hospital**: Manage inventory, schedule maintenance, and order equipment.
-* 🔧 **Technician**: View and complete assigned maintenance tasks.
-* 🚚 **Supplier**: Fulfill equipment orders and update delivery status.
-* 🤖 **AI Assistant**: Chat with a RAG-grounded assistant to ask questions about equipment/maintenance/orders, and draft purchase orders or reports in plain language — with human approval required before anything is submitted.
+### What Makes This Unique? (Explained Simply)
+
+Imagine a hospital where a smart MRI machine gets a computer virus. A normal security system would instantly disconnect the MRI machine from the network to protect the hospital. **But what if that machine is actively being used to keep a patient alive?**
+
+This project solves that exact problem. It introduces two unique concepts that even a 1st-year student can understand:
+
+1. **The "Risk-Action Matrix":** Instead of just checking if a user has the right password, the system checks *how risky* the medical device currently is (e.g., does it have an outdated software patch?). If the risk is too high, the system automatically blocks access, even if the password is correct!
+2. **The "Biomedical Safety Lock":** The system always checks the physical state of the medical device. If the device is marked as IN_USE (attached to a patient) or EMERGENCY, the security system will **never** automatically disconnect it. Instead, it places a "Safety Lock" and demands a human doctor and an IT Admin to both insert a password to override it. 
+
+**In simple terms:** We built a security system that is smart enough to know that saving a patient's life is more important than fighting a computer virus.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -81,8 +85,7 @@ The system supports three major roles:
 * [![Tailwind][Tailwind.css]][Tailwind-url]
 * [![Spring][Spring.io]][Spring-url]
 * [![Java][Java.com]][Java-url]
-* [![LangChain][LangChain.js]][LangChain-url]
-* [![LLM API][LLM.api]][LLM-url]
+* [![OPA](https://img.shields.io/badge/Open%20Policy%20Agent-000000?style=for-the-badge&logo=open-policy-agent&logoColor=white)](#)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -95,65 +98,42 @@ To get a local copy up and running, follow these simple steps.
 
 * Java 17 or higher
 * Node.js (v16+)
-* npm (v8+)
 * Maven
-* `OPENAI_API_KEY` environment variable (for the AI Service)
-* Python 3.10+ (for the AI Service microservice)
+* MySQL 8
 
 ### Installation
 
 1. Clone the repo
-   ```sh
+   `sh
    git clone https://github.com/kRamu81/MedTrack_Application.git
-   ```
+   `
 2. **Start the Backend**
-   ```sh
+   `sh
    cd Backend
    mvn spring-boot:run
-   ```
-   * **API URL**: `http://localhost:8081`
-   * **H2 Console**: `http://localhost:8081/h2-console` (JDBC: `jdbc:h2:mem:medtrackdb`, User: `sa`)
+   `
+   * **API URL**: http://localhost:8081
 
 3. **Start the Frontend**
-   ```sh
+   `sh
    # Open a new terminal in the root directory
    npm install
    npm start
-   ```
-   * **App URL**: `http://localhost:3000/MedTrack_Application`
-
-4. **Start the AI Service (Separate Python Microservice)**
-   ```sh
-   cd ai-service
-   # Ensure your .env contains OPENAI_API_KEY=your_api_key
-   pip install -r requirements.txt
-   uvicorn main:app --port 8000
-   ```
-   * **API URL**: `http://localhost:8000`
+   `
+   * **App URL**: http://localhost:3000/MedTrack_Application
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 ## Usage & Test Accounts
 
-Use the following default accounts to test the different role dashboards:
+Use the following default accounts to test the Zero-Trust dashboards:
 
 | Role | Email | Password |
 |------|-------|----------|
-| Hospital Admin | `hospital@medtrack.com` | `admin123` |
-| Technician | `tech@medtrack.com` | `tech123` |
-| Supplier | `supplier@medtrack.com` | `supply123` |
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-<!-- AI ASSISTANT -->
-## AI Assistant (Beta)
-
-MedTrack now includes a conversational AI assistant grounded in live platform data (via RAG and pgvector/Elasticsearch kNN) to help orchestrate tasks across all roles.
-
-* **How to access:** Click the 🤖 icon in the bottom right of any role dashboard.
-* **Example Prompt:** *"Draft a purchase order for 3 replacement infusion pump batteries at City General."*
-* **Important Guardrail:** All AI-drafted actions require explicit human review. A user must click "Approve & Submit" before any change takes effect. The agent NEVER writes directly to the database. All AI interactions are logged to the `ai-events` Kafka topic for auditing.
+| Hospital Admin | hospital@medtrack.com | dmin123 |
+| Technician | 	ech@medtrack.com | 	ech123 |
+| Supplier | supplier@medtrack.com | supply123 |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -163,13 +143,6 @@ MedTrack now includes a conversational AI assistant grounded in live platform da
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 Please see our [CONTRIBUTING.md](CONTRIBUTING.md) file for full details on how to get started, assign yourself an issue, and submit a Pull Request.
-
-**Quick Steps:**
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -181,21 +154,12 @@ A huge thank you to everyone who has contributed to **MedTrack Application**! Yo
   <img src="https://contrib.rocks/image?repo=kRamu81/MedTrack_Application&max=500&columns=12" alt="Contributors" />
 </a>
 
-<p align="center">
-  <b> Every contribution matters — from bug fixes to major features.</b><br>
-  <i>Become a contributor and help us build the future of MedTrack!</i>
-</p>
-
-
-<!-- contributors -->
-
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- LICENSE -->
 ## License
 
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See LICENSE for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -207,7 +171,6 @@ Project Link: [https://github.com/kRamu81/MedTrack_Application](https://github.c
 💬 **Join our Discord Community:** [https://discord.gg/F7TUpgPzJ](https://discord.gg/F7TUpgPzJ)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- MARKDOWN LINKS & IMAGES -->
 [contributors-shield]: https://img.shields.io/github/contributors/kRamu81/MedTrack_Application.svg?style=for-the-badge
@@ -228,13 +191,4 @@ Project Link: [https://github.com/kRamu81/MedTrack_Application](https://github.c
 [Spring-url]: https://spring.io/projects/spring-boot
 [Java.com]: https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
 [Java-url]: https://java.com/
-[LangChain.js]: https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logoColor=white
-[LangChain-url]: https://langchain.com/
-[LLM.api]: https://img.shields.io/badge/OpenAI_API-412991?style=for-the-badge&logo=openai&logoColor=white
-[LLM-url]: https://openai.com/
-
-<!-- final test -->
-
-<!-- test sentinel automation -->
-
-<!-- test congratulations workflow -->
+# MedTrack
